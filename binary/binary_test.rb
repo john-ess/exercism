@@ -4,47 +4,47 @@ require_relative 'binary'
 # Common test data version: 1.0.0 969717d
 class BinaryTest < Minitest::Test
   def test_binary_0_is_decimal_0
-    skip
+    #skip
     assert_equal 0, Binary.to_decimal('0')
   end
 
   def test_binary_1_is_decimal_1
-    skip
+    #skip
     assert_equal 1, Binary.to_decimal('1')
   end
 
   def test_binary_10_is_decimal_2
-    skip
+    #skip
     assert_equal 2, Binary.to_decimal('10')
   end
 
   def test_binary_11_is_decimal_3
-    skip
+    #skip
     assert_equal 3, Binary.to_decimal('11')
   end
 
   def test_binary_100_is_decimal_4
-    skip
+    #skip
     assert_equal 4, Binary.to_decimal('100')
   end
 
   def test_binary_1001_is_decimal_9
-    skip
+    #skip
     assert_equal 9, Binary.to_decimal('1001')
   end
 
   def test_binary_11010_is_decimal_26
-    skip
+    #skip
     assert_equal 26, Binary.to_decimal('11010')
   end
 
   def test_binary_10001101000_is_decimal_1128
-    skip
+    # skip
     assert_equal 1128, Binary.to_decimal('10001101000')
   end
 
   def test_binary_ignores_leading_zeros
-    skip
+    #skip
     assert_equal 31, Binary.to_decimal('000011111')
   end
 
@@ -96,7 +96,7 @@ class BinaryTest < Minitest::Test
   # http://ruby-doc.org/docs/ruby-doc-bundle/UsersGuide/rg/constants.html
 
   def test_bookkeeping
-    skip
+    #skip
     assert_equal 3, BookKeeping::VERSION
   end
 end
