@@ -1,10 +1,7 @@
-# THIS IS UGLY
-# BUT IT WORKS
-# ANY INPUT / SUGGESTIONS MUCH APPRECIATED
 
 class RunLengthEncoding
   def self.encode decoded
-    # convert to an array
+
     order  = decoded.chars.chunk_while(&:==).map(&:first)
 
     counts = order.map do |letter|
@@ -15,18 +12,14 @@ class RunLengthEncoding
                 end
                 count = count > 1 ? count : 0
               end
+
     counts.zip(order).join.to_s.gsub('0','')
   end
 
   def self.decode encoded
-    decoded = String.new
-
-    encoded.scan(/(\d*)(\D)/) do |(k, v)|
-       k = !k.empty? ? k : "1"
-       decoded << "#{v * k.to_i}"
+    encoded.scan(/(\d*)(\D)/).reduce('') do |decoded,(count,letter)|
+      decoded + letter * ( count.empty? ? 1 : count.to_i )
     end
-
-    decoded
   end
 
 end
