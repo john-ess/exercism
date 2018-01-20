@@ -1,7 +1,7 @@
 class RunLengthEncoding
   def self.encode decoded
     decoded.chars.chunk_while(&:==).reduce('') do |encoded, letters|
-      encoded << (letters.size == 1 ? letters[0] : "#{letters.size}#{letters[0]}")
+      encoded << "#{letters.size if letters.size != 1}#{letters.first}"
     end
   end
 
