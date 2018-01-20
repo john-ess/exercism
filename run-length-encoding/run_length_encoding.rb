@@ -3,14 +3,14 @@
 # ANY INPUT / SUGGESTIONS MUCH APPRECIATED
 
 class RunLengthEncoding
-  def self.encode input
+  def self.encode decoded
     # convert to an array
-    order  = input.chars.chunk_while(&:==).map(&:first)
+    order  = decoded.chars.chunk_while(&:==).map(&:first)
 
     counts = order.map do |letter|
                 count = 0
-                while input[0,1] == letter
-                  input.slice!(0)
+                while decoded[0,1] == letter
+                  decoded.slice!(0)
                   count += 1
                 end
                 count = count > 1 ? count : 0
@@ -19,8 +19,8 @@ class RunLengthEncoding
   end
 
   def self.decode encoded
-
     decoded = String.new
+
     encoded.scan(/(\d*)(\D)/) do |(k, v)|
        k = !k.empty? ? k : "1"
        decoded << "#{v * k.to_i}"
