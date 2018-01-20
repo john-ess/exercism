@@ -21,7 +21,7 @@ class RunLengthEncoding
   def self.decode encoded
 
     decoded = String.new
-    encoded.scan(/(\d*)(\D)/).each do |(k, v)|
+    encoded.scan(/(\d*)(\D)/) do |(k, v)|
        k = !k.empty? ? k : "1"
        decoded << "#{v * k.to_i}"
     end
