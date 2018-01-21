@@ -1,11 +1,18 @@
 # this works, but...
-# doesn't handle test_no_block_is_passed
+# ...doesn't handle test_no_block_is_passed
+# and there's prob a better enumerator
 
 class Array
   def accumulate(&action)
-    self.map do |object|
-      action.call object
+    output = Array.new
+    self.each do |object|
+      output << item_val(object, &action)
     end
+    output
+  end
+
+  def item_val(item, &action)
+    return action.call item
   end
 end
 
