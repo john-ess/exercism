@@ -1,19 +1,7 @@
-# this works, but...
-# ...and there's prob a better enumerator
-
 class Array
-  def accumulate(&action)
-    return self.to_enum if action.class == NilClass
-
-    output = Array.new
-    self.each do |object|
-      output << item_val(object, &action)
-    end
-    output
-  end
-
-  def item_val(item, &action)
-    return action.call item
+  def accumulate
+    return self.to_enum if !block_given?
+    each_with_object([]) { |value, output| output << yield(value) }
   end
 end
 
