@@ -1,6 +1,6 @@
 # this works, but...
 # ...doesn't handle test_no_block_is_passed
-# and there's prob a better enumerator
+# ...and there's prob a better enumerator
 
 class Array
   def accumulate(&action)
