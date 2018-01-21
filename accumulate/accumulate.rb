@@ -4,6 +4,8 @@
 
 class Array
   def accumulate(&action)
+    return self.to_enum if action.class == NilClass
+
     output = Array.new
     self.each do |object|
       output << item_val(object, &action)
