@@ -1,7 +1,7 @@
 class Array
   def accumulate
     return self.to_enum if !block_given?
-    each_with_object([]) { |value, output| output << yield(value) }
+    each_with_object([]) { |item, output| output << yield(item) }
   end
 end
 
