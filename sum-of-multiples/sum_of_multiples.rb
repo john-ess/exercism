@@ -1,5 +1,3 @@
-# second draft
-
 class SumOfMultiples
 
   def initialize *numbers
@@ -7,11 +5,7 @@ class SumOfMultiples
   end
 
   def to num
-    sum = 0
-    (1...num).each do |n|
-      sum = sum + n if @mods.any? { |mod| n % mod == 0 }
-    end
-    sum
+    (1...num).select { |n| @mods.any? { |mod| n % mod == 0 } }.reduce(0,:+)
   end
 end
 
