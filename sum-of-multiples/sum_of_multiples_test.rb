@@ -54,17 +54,17 @@ class SumOfMultiplesTest < Minitest::Test
   end
 
   def test_multiples_of_43_or_47_up_to_10000
-    # skip
+    #skip
     assert_equal 2_203_160, SumOfMultiples.new(43, 47).to(10000)
   end
 
   def test_multiples_of_1_up_to_100
-    # skip
+    #skip
     assert_equal 4_950, SumOfMultiples.new(1).to(100)
   end
 
   def test_multiples_of_an_empty_list_up_to_10000
-    # skip
+    #skip
     assert_equal 0, SumOfMultiples.new().to(10000)
   end
 
