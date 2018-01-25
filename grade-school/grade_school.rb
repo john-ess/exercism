@@ -1,6 +1,5 @@
 # UGLY, but it works
-# need to delve more into hashes
-# needs a private method
+# a bit cleaned up...
 
 class School
 
@@ -10,24 +9,22 @@ class School
 
   def add student, year
     if @roster.select{ |x| x[:grade] == year}.empty?
-      h = {grade: year, students: [student]}
-      @roster.push(h)
+      year = { grade: year, students: [student] }
+      @roster.push(year)
     else
-      r = @roster.select{ |x| x[:grade] == year}
-      r[0][:students] << student
-      r[0][:students].sort!
+      year = @roster.select{ |x| x[:grade] == year}
+      year.first[:students] << student
+      year.first[:students].sort!
     end
-    return student
   end
 
   def students year
-    return [] if @roster.empty? || @roster.select{ |x| x[:grade] == year}.nil?
-    s = @roster.select{ |x| x[:grade] == year}
-    s[0][:students]
+    return [] if @roster.select{ |h| h[:grade] == year}.empty?
+    @roster.select{ |h| h[:grade] == year }.first[:students]
   end
 
   def students_by_grade
-    @roster.sort_by{|h| h[:grade] }
+    @roster.sort_by{ |h| h[:grade] }
   end
 
 end
