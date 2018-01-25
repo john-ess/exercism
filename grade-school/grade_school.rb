@@ -8,7 +8,7 @@ class School
   end
 
   def add student, grade
-    if @roster.select{ |x| x[:grade] == grade}.empty?
+    if @roster.select{ |h| h[:grade] == grade}.empty?
       grade = { grade: grade, students: [student] }
       @roster.push(grade)
     else
