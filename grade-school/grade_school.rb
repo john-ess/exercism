@@ -7,20 +7,20 @@ class School
     @roster = []
   end
 
-  def add student, year
-    if @roster.select{ |x| x[:grade] == year}.empty?
-      year = { grade: year, students: [student] }
-      @roster.push(year)
+  def add student, grade
+    if @roster.select{ |x| x[:grade] == grade}.empty?
+      grade = { grade: grade, students: [student] }
+      @roster.push(grade)
     else
-      year = @roster.select{ |x| x[:grade] == year}
-      year.first[:students] << student
-      year.first[:students].sort!
+      grade = @roster.select{ |x| x[:grade] == grade}
+      grade.first[:students] << student
+      grade.first[:students].sort!
     end
   end
 
-  def students year
-    return [] if @roster.select{ |h| h[:grade] == year}.empty?
-    @roster.select{ |h| h[:grade] == year }.first[:students]
+  def students grade
+    return [] if @roster.select{ |h| h[:grade] == grade}.empty?
+    @roster.select{ |h| h[:grade] == grade }.first[:students]
   end
 
   def students_by_grade
