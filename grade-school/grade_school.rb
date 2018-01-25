@@ -6,20 +6,16 @@ class School
   end
 
   def add student, grade
-    return @roster[grade] = [student] if @roster[grade].empty?
-
     @roster[grade] << student
     @roster[grade].sort!
   end
 
   def students grade
-    return [] if @roster[grade].nil?
     @roster[grade]
   end
 
   def students_by_grade
-    return [] if @roster.empty?
-    @roster.sort.map { |k,v| { :grade => k, :students => v } }
+    @roster.sort.map { |k,v| { :grade => k, :students => v.sort } }
   end
 
 end
