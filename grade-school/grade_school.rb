@@ -1,30 +1,25 @@
-# UGLY, but it works
-# a bit cleaned up...
 
 class School
 
   def initialize
-    @roster = []
+    @roster = Hash.new {|hash, key| hash[key] = [] }
   end
 
   def add student, grade
-    if @roster.select{ |h| h[:grade] == grade}.empty?
-      grade = { grade: grade, students: [student] }
-      @roster.push(grade)
-    else
-      grade = @roster.select{ |x| x[:grade] == grade}
-      grade.first[:students] << student
-      grade.first[:students].sort!
-    end
+    return @roster[grade] = [student] if @roster[grade].empty?
+
+    @roster[grade] << student
+    @roster[grade].sort!
   end
 
   def students grade
-    return [] if @roster.select{ |h| h[:grade] == grade}.empty?
-    @roster.select{ |h| h[:grade] == grade }.first[:students]
+    return [] if @roster[grade].nil?
+    @roster[grade]
   end
 
   def students_by_grade
-    @roster.sort_by{ |h| h[:grade] }
+    return [] if @roster.empty?
+    @roster.sort.map { |k,v| { :grade => k, :students => v } }
   end
 
 end
