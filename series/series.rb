@@ -11,7 +11,7 @@ class Series
     begin
       arr << num.slice(0,series_length)
       num.slice!(0)
-    end while !num.empty? && num.length >= series_length
+    end while num.length >= series_length
     arr
   end
 end
