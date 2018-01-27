@@ -7,15 +7,16 @@ class School
 
   def add student, grade
     @roster[grade] << student
-    @roster[grade].sort!
   end
 
   def students grade
-    @roster[grade]
+    @roster[grade].sort
   end
 
   def students_by_grade
-    @roster.sort.map { |k,v| { :grade => k, :students => v.sort } }
+    @roster.sort.map do |grade, students|
+      { grade: grade, students: students.sort }
+    end
   end
 
 end
