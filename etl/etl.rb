@@ -1,11 +1,9 @@
 class ETL
 
   def self.transform old
-    scores = Hash.new
-    old.each do |score,letters|
-      letters.each_with_object({}) { |letter| scores[letter.downcase] = score }
+    old.each_with_object({}) do |(score,letters), memo|
+      letters.each_with_object({}) { |letter| memo[letter.downcase] = score }
     end
-    scores
   end
 end
 
