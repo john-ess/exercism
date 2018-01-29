@@ -1,9 +1,5 @@
 class ETL
 
-  def initialize
-    @scores = Hash.new
-  end
-
   def self.transform old
     scores = Hash.new
     old.each do |score,letters|
