@@ -1,20 +1,20 @@
 class BeerSong
   def verse num
     case num
-    when 3..99
-      line1 = "#{num} bottles of beer on the wall, #{num} bottles of beer."
-      line2 = "Take one down and pass it around, #{num - 1} bottles of beer on the wall."
-    when 2..2
-      line1 = "2 bottles of beer on the wall, 2 bottles of beer."
-      line2 = "Take one down and pass it around, 1 bottle of beer on the wall."
-    when 1..1
-      line1 = "1 bottle of beer on the wall, 1 bottle of beer."
-      line2 = "Take it down and pass it around, no more bottles of beer on the wall."
-    when 0..0
-      line1 = "No more bottles of beer on the wall, no more bottles of beer."
-      line2 = "Go to the store and buy some more, 99 bottles of beer on the wall."
+    when 1..99
+      current_bottle    = bottle_text(num)
+      remaining_bottles = bottle_text(num - 1)
+      action            = action_text(num)
+    else
+      current_bottle    = 'no more bottles'
+      action            = 'Go to the store and buy some more'
+      remaining_bottles = '99 bottles'
     end
-    return line1 + "\n" + line2 + "\n"
+
+    line1 = "#{current_bottle.capitalize} of beer on the wall, #{current_bottle} of beer.\n"
+    line2 = "#{action}, #{remaining_bottles} of beer on the wall.\n"
+
+    line1 + line2
   end
 
   def verses high_bottle, low_bottle
@@ -25,8 +25,17 @@ class BeerSong
   def self.all_verses
     verses 99, 1
   end
-end
 
+  private
+
+  def bottle_text num
+    (num > 1 ) ? "#{num} bottles": ((num == 1) ? '1 bottle' : 'no more bottles')
+  end
+
+  def action_text num
+    (num > 1) ? 'Take one down and pass it around' : 'Take it down and pass it around'
+  end
+end
 
 module BookKeeping
   VERSION = 3 # Where the version number matches the one in the test.
