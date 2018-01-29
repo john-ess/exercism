@@ -1,4 +1,4 @@
-class Binary
+class Trinary
   def self.to_decimal binary
     raise ArgumentError.new('Binary numbers consist of 1s and 0s only.') if (/[^10]/) =~ binary
     return 0 if binary.to_i.zero?
