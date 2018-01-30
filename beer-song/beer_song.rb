@@ -1,15 +1,8 @@
 class BeerSong
   def verse num
-    case num
-    when 1..99
-      current_bottle    = bottle_text(num)
-      remaining_bottles = bottle_text(num - 1)
-      action            = action_text(num)
-    else
-      current_bottle    = 'no more bottles'
-      action            = 'Go to the store and buy some more'
-      remaining_bottles = '99 bottles'
-    end
+    current_bottle    = bottle_text(num)
+    remaining_bottles = bottle_text(num - 1)
+    action            = action_text(num)
 
     line1 = "#{current_bottle.capitalize} of beer on the wall, #{current_bottle} of beer.\n"
     line2 = "#{action}, #{remaining_bottles} of beer on the wall.\n"
@@ -18,22 +11,26 @@ class BeerSong
   end
 
   def verses high_bottle, low_bottle
-    bottles = (low_bottle..high_bottle).to_a.reverse
-    bottles.map { |bottle| verse(bottle) }.join("\n")
+    high_bottle.downto(low_bottle).map(&method(:verse)).join("\n")
   end
 
-  def self.all_verses
+  def all_verses
     verses 99, 1
   end
 
   private
-
   def bottle_text num
-    (num > 1 ) ? "#{num} bottles": ((num == 1) ? '1 bottle' : 'no more bottles')
+    return "#{num} bottles"   if num > 1
+    return '1 bottle'         if num == 1
+    return 'no more bottles'  if num == 0
+    '99 bottles'
   end
 
   def action_text num
-    (num > 1) ? 'Take one down and pass it around' : 'Take it down and pass it around'
+    return 'Go to the store and buy some more' if num < 1
+
+    text = (num == 1) ? 'it' : 'one'
+    return "Take #{text} down and pass it around"
   end
 end
 
