@@ -1,4 +1,8 @@
 class BeerSong
+
+  FULL_BAR  = 99
+  RESTOCK   = 1
+
   def verse num
     current_bottle    = bottle_text(num)
     remaining_bottles = bottle_text(num - 1)
@@ -15,7 +19,7 @@ class BeerSong
   end
 
   def all_verses
-    verses 99, 1
+    verses FULL_BAR, RESTOCK
   end
 
   private
@@ -23,7 +27,7 @@ class BeerSong
     return "#{num} bottles"   if num > 1
     return '1 bottle'         if num == 1
     return 'no more bottles'  if num == 0
-    '99 bottles'
+    "#{FULL_BAR} bottles"
   end
 
   def action_text num
