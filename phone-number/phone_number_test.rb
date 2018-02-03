@@ -15,7 +15,7 @@ class PhoneNumberTest < Minitest::Test
 
   def test_cleans_numbers_with_multiple_spaces
     #skip
-    assert_equal "2234567890", PhoneNumber.clean("223 456   7890   ")
+    assert_equal "7234567890", PhoneNumber.clean("723 456   7890   ")
   end
 
   def test_invalid_when_9_digits

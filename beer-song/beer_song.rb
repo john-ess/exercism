@@ -2,14 +2,16 @@ class BeerSong
 
   FULL_BAR  = 99
   RESTOCK   = 1
+  BEVERAGE  = 'beer'
+  LOCATION  = 'on the wall'
 
   def verse num
-    current_bottle    = bottle_text(num)
-    remaining_bottles = bottle_text(num - 1)
-    action            = action_text(num)
+    current_bottle    = bottle(num)
+    remaining_bottles = bottle(num - 1)
+    action            = action(num)
 
-    line1 = "#{current_bottle.capitalize} of beer on the wall, #{current_bottle} of beer.\n"
-    line2 = "#{action}, #{remaining_bottles} of beer on the wall.\n"
+    line1 = "#{current_bottle.capitalize} of #{BEVERAGE} #{LOCATION}, #{current_bottle} of #{BEVERAGE}.\n"
+    line2 = "#{action}, #{remaining_bottles} of #{BEVERAGE} #{LOCATION}.\n"
 
     line1 + line2
   end
@@ -23,18 +25,17 @@ class BeerSong
   end
 
   private
-  def bottle_text num
+  def bottle num
     return "#{num} bottles"   if num > 1
     return '1 bottle'         if num == 1
     return 'no more bottles'  if num == 0
     "#{FULL_BAR} bottles"
   end
 
-  def action_text num
+  def action num
     return 'Go to the store and buy some more' if num < 1
-
-    text = (num == 1) ? 'it' : 'one'
-    return "Take #{text} down and pass it around"
+    return 'Take it down and pass it around'   if num == 1
+    'Take one down and pass it around'
   end
 end
 

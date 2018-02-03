@@ -7,7 +7,7 @@ class Trinary
     return 0 if (/[^210]/) =~ @trinary
     #return 0 if @trinary.to_i.zero?
 
-    @trinary.reverse.chars.each_with_index.map { |num, i| num.to_i * (3 ** i) }.reduce(0,:+)
+    @trinary.reverse.chars.each_with_index.map { |num, i| num.to_i * (3 ** i) }.reduce(:+)
   end
 end
 
