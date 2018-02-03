@@ -31,12 +31,11 @@ class Game
   end
 
   def add_spare frame, pins
-    @frame_score[@frame - 1] << pins
+    @frame_score[@frame - 1]  << pins if frame < 10
     @spare = false
   end
 
   def add_strike frame, pins
-    puts @strike
     @strike.each do |frame, balls|
       @frame_score[frame] << pins
       @strike[frame] -= 1
@@ -45,6 +44,7 @@ class Game
   end
 
   def roll pins
+
     raise BowlingError.new('Each ball must be be between 0 - 10.') unless (0..10).include?(pins)
 
     add_spare(@frame, pins) if @spare
@@ -62,11 +62,11 @@ class Game
     end
 
 
-    if @frame > 10 && !@spare
-      @frame += 1
-    elsif @frame == 10 && @strike.empty? && !@spare && @frame_score[@frame].count == 2
+    if @frame == 10 && @strike.empty? && !@spare && @frame_score[@frame].count == 2
       @game_over = true
-    elsif @frame_score[@frame].count == 2
+    elsif @frame > 10
+      @frame += 1
+    elsif @frame_score[@frame].count == 2 && @frame != 10
       @frame += 1
     end
 
@@ -88,6 +88,3 @@ end
 module BookKeeping
   VERSION = 3 # Where the version number matches the one in the test.
 end
-
-# score getter method
-# check total fromes, return error if not 10
