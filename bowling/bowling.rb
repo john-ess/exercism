@@ -17,8 +17,8 @@ class Game
     @score        = 0
     @frame        = 1
     @frame_score  = Hash.new { |hash, key| hash[key] = [] }
-    @spare        = false       # keep track of whether to add to previous frame
-    @strike       = Array.new   # array of frames with strikes
+    @spare        = false                                     # keep track of whether to add to previous frame
+    @strike       = Hash.new { |hash, key| hash[key] = '' }   # array of frames with strikes
     @game_over    = false
   end
 
@@ -28,18 +28,27 @@ class Game
         roll ball
       end
     end
+  end
 
+  def add_spare frame, pins
+    @frame_score[@frame - 1] << pins
+    @spare = false
+  end
+
+  def add_strike frame, pins
+    puts @strike
+    @strike.each do |frame, balls|
+      @frame_score[frame] << pins
+      @strike[frame] -= 1
+      @strike.delete(frame) if balls == 0
+    end
   end
 
   def roll pins
     raise BowlingError.new('Each ball must be be between 0 - 10.') unless (0..10).include?(pins)
 
-    if @spare == true
-      @frame_score[@frame - 1] << pins
-      @spare = false
-    elsif @strike == true
-      @frame_score[@frame - 1] << pins
-    end
+    add_spare(@frame, pins) if @spare
+    add_strike(@frame, pins) if !@strike.empty?
 
     if @frame <= 10
       @frame_score[@frame] << pins
@@ -48,16 +57,17 @@ class Game
     if @frame_score[@frame].reduce(:+) == 10 && @frame_score[@frame].count == 2
       @spare   = true
     elsif @frame_score[@frame].reduce(:+) == 10 && @frame_score[@frame].count == 1
-      @strike  = true
+      @strike[@frame] = 1
+      @frame += 1
     end
 
 
-    if @strike && @frame > 10
-      @frame = @frame + 1
-    elsif @frame == 10 && !@strike && !@spare && @frame_score[@frame].count == 2
+    if @frame > 10 && !@spare
+      @frame += 1
+    elsif @frame == 10 && @strike.empty? && !@spare && @frame_score[@frame].count == 2
       @game_over = true
     elsif @frame_score[@frame].count == 2
-      @frame = @frame + 1
+      @frame += 1
     end
 
   end
