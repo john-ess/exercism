@@ -28,6 +28,10 @@ class Game
     advance_frame         unless @frame == 10
   end
 
+  def spare
+    @spare_strike[@frame] = 1
+  end
+
   def advance_frame
     @frame = @frame + 1
   end
@@ -47,7 +51,7 @@ class Game
       raise BowlingError.new('Score must be less than 10 in regular frame') if @frame_score[@frame][0] != 10 && @frame_score[@frame][0]+pins > 10
 
       @frame_score[@frame] << pins
-      @spare_strike[@frame] = 1 if @frame_score[@frame].reduce(:+) == 10
+      spare if @frame_score[@frame].reduce(:+) == 10
       advance_frame if @frame != 10
     elsif @frame == 10 && @spare_strike.any? && @frame_score[@frame].count == 2
       raise BowlingError.new('last two pins must be less than 10') if pins != 10 && @frame_score[10][1] < 10 && (@frame_score[10][1] + pins > 10)
