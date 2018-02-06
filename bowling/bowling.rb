@@ -2,6 +2,7 @@
 # Will clean up
 
 class Game
+
   def initialize
     @score        = 0
     @frame        = 1
@@ -37,7 +38,7 @@ class Game
   end
 
   def roll pins
-    raise BowlingError.new('Game is over.') if @frame == 10 && @spare_strike.empty? && @frame_score[@frame].count == 2
+    raise BowlingError.new('Game is over.') if @frame == 10 && @frame_score[@frame].count == 2 && @spare_strike.empty?
     raise BowlingError.new('Each ball must be be between 0 - 10.') unless (0..10).include?(pins)
 
     if @spare_strike.any?
@@ -54,7 +55,7 @@ class Game
       spare if @frame_score[@frame].reduce(:+) == 10
       advance_frame if @frame != 10
     elsif @frame == 10 && @spare_strike.any? && @frame_score[@frame].count == 2
-      raise BowlingError.new('last two pins must be less than 10') if pins != 10 && @frame_score[10][1] < 10 && (@frame_score[10][1] + pins > 10)
+      raise BowlingError.new('last two pins must be less than 10') if pins != 10 && @frame_score[10][1] < 10 && @frame_score[10][1] + pins > 10
       raise BowlingError.new('Final two rolls can\'t exceed ten.') if @frame_score[10][0] == 10 && @frame_score[10][1] < 10 && @frame_score[10][1] + pins > 10
 
       @frame_score[@frame] << pins
@@ -64,7 +65,7 @@ class Game
   end
 
   def score
-    raise BowlingError.new('Game is not done') if @frame < 10 || (@frame == 10 && @spare_strike.any?)
+    raise BowlingError.new('Game is not done') if @frame < 10 || @frame == 10 && @spare_strike.any?
 
     @frame_score.map { |k,v| v.reduce(:+) }.reduce(:+)
   end
@@ -72,9 +73,6 @@ end
 
 
 class BowlingError < StandardError
-  def initialize msg="There was an error."
-    super
-  end
 end
 
 module BookKeeping

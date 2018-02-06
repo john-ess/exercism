@@ -87,7 +87,6 @@ class BowlingTest < Minitest::Test
   def test_a_strike_with_the_one_roll_bonus_after_a_spare_in_the_last_frame_does_not_get_a_bonus
     #skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3, 10])
-    puts @game.score
     assert_equal 20, @game.score
   end
 
