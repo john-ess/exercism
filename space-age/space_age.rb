@@ -15,13 +15,9 @@ class SpaceAge
     @age_in_seconds = seconds
   end
 
-  def calculate earth_multiple
-    @age_in_seconds / (EARTH_YEAR_IN_SECONDS * earth_multiple)
-  end
-
   [:earth, :mercury, :venus, :mars, :jupiter, :saturn, :uranus, :neptune].each do |method|
     define_method "on_#{method}" do
-      calculate SpaceAge.const_get(method.upcase)
+      @age_in_seconds / (EARTH_YEAR_IN_SECONDS * SpaceAge.const_get(method.upcase))
     end
   end
 
