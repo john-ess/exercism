@@ -1,16 +1,5 @@
-# * An open frame is where a score of less than 10 is recorded for the
-#   frame. In this case the score for the frame is the number of pins
-#   knocked down.
-
-# * A spare is where all ten pins are knocked down by the second
-#   throw. The total value of a spare is 10 plus the number of pins
-#   knocked down in their next throw.
-
-# * A strike is where all ten pins are knocked down by the first
-#   throw. The total value of a strike is 10 plus the number of pins
-#   knocked down in the next two throws. If a strike is immediately
-#   followed by a second strike, then the value of the first strike
-#   cannot be determined until the ball is thrown one more time.
+# Passes tests, but this is a mess.
+# Will clean up
 
 class Game
   def initialize
@@ -56,11 +45,13 @@ class Game
       advance_frame if pins == 10 && @frame != 10
     elsif @frame_score[@frame].count == 1
       raise BowlingError.new('Score must be less than 10 in regular frame') if @frame_score[@frame][0]!= 10 && @frame_score[@frame][0]+pins > 10
+
       @frame_score[@frame] << pins
       @spare_strike[@frame] = 1 if @frame_score[@frame].reduce(:+) == 10
       advance_frame if @frame != 10
     elsif @frame == 10 && @spare_strike.any? && @frame_score[@frame].count == 2
-      raise BowlingError.new('last two pins must be < 10') if @frame_score[10][1] < 10 && @frame_score[10][1]+pins > 10
+      raise BowlingError.new('last two pins must be less than 10') if pins != 10 && @frame_score[10][1] < 10 && (@frame_score[10][1] + pins > 10)
+      raise BowlingError.new('An error') if @frame_score[10][0] == 10 && (@frame_score[10][1] < 10) && @frame_score[10][1] + pins > 10
 
       @frame_score[@frame] << pins
       @spare_strike.delete(10)
