@@ -42,16 +42,12 @@ class Game
     @frame = @frame + 1
   end
 
-  def check_frame
-
-  end
-
   def roll pins
     raise BowlingError.new('Game is over.') if @frame == 10 && @spare_strike.empty? && @frame_score[@frame].count == 2
     raise BowlingError.new('Each ball must be be between 0 - 10.') unless (0..10).include?(pins)
 
     if @spare_strike.any?
-      score_extra(pins)
+      score_extra pins
     end
 
     if @frame_score[@frame].empty?
@@ -59,6 +55,7 @@ class Game
       @spare_strike[@frame] = 2 if pins == 10
       advance_frame if pins == 10 && @frame != 10
     elsif @frame_score[@frame].count == 1
+      raise BowlingError.new('Score must be less than 10 in regular frame') if @frame_score[@frame][0]!= 10 && @frame_score[@frame][0]+pins > 10
       @frame_score[@frame] << pins
       @spare_strike[@frame] = 1 if @frame_score[@frame].reduce(:+) == 10
       advance_frame if @frame != 10
