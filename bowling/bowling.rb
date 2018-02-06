@@ -7,11 +7,10 @@ class Game
     @frame        = 1
     @frame_score  = Hash.new { |hash, key| hash[key] = [] }
     @spare_strike = Hash.new { |hash, key| hash[key] = '' }
-    @game_over    = false
   end
 
   def record balls
-    balls.each(&:roll) unless @game_over
+    balls.each(&:roll)
   end
 
   def score_extra pins
@@ -45,7 +44,7 @@ class Game
       @frame_score[@frame] << pins
       strike if pins == 10
     elsif @frame_score[@frame].count == 1
-      raise BowlingError.new('Score must be less than 10 in regular frame') if @frame_score[@frame][0]!= 10 && @frame_score[@frame][0]+pins > 10
+      raise BowlingError.new('Score must be less than 10 in regular frame') if @frame_score[@frame][0] != 10 && @frame_score[@frame][0]+pins > 10
 
       @frame_score[@frame] << pins
       @spare_strike[@frame] = 1 if @frame_score[@frame].reduce(:+) == 10
@@ -55,8 +54,7 @@ class Game
       raise BowlingError.new('Final two rolls can\'t exceed ten.') if @frame_score[10][0] == 10 && @frame_score[10][1] < 10 && @frame_score[10][1] + pins > 10
 
       @frame_score[@frame] << pins
-      @spare_strike.delete(10)
-      @game_over = true
+      @spare_strike.clear
     end
 
   end
