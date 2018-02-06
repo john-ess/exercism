@@ -11,20 +11,22 @@ class Game
   end
 
   def record balls
-    if !@game_over
-      balls.each do |ball|
-        roll ball
-      end
-    end
+    balls.each(&:roll) unless @game_over
   end
 
   def score_extra pins
     @spare_strike.each do |frame, balls|
       next if frame == @frame
+
       @frame_score[frame] << pins
       @spare_strike[frame] -= 1
       @spare_strike.delete(frame) if balls <= 1
     end
+  end
+
+  def strike
+    @spare_strike[@frame] = 2
+    advance_frame         unless @frame == 10
   end
 
   def advance_frame
@@ -41,8 +43,7 @@ class Game
 
     if @frame_score[@frame].empty?
       @frame_score[@frame] << pins
-      @spare_strike[@frame] = 2 if pins == 10
-      advance_frame if pins == 10 && @frame != 10
+      strike if pins == 10
     elsif @frame_score[@frame].count == 1
       raise BowlingError.new('Score must be less than 10 in regular frame') if @frame_score[@frame][0]!= 10 && @frame_score[@frame][0]+pins > 10
 
@@ -51,7 +52,7 @@ class Game
       advance_frame if @frame != 10
     elsif @frame == 10 && @spare_strike.any? && @frame_score[@frame].count == 2
       raise BowlingError.new('last two pins must be less than 10') if pins != 10 && @frame_score[10][1] < 10 && (@frame_score[10][1] + pins > 10)
-      raise BowlingError.new('An error') if @frame_score[10][0] == 10 && (@frame_score[10][1] < 10) && @frame_score[10][1] + pins > 10
+      raise BowlingError.new('Final two rolls can\'t exceed ten.') if @frame_score[10][0] == 10 && @frame_score[10][1] < 10 && @frame_score[10][1] + pins > 10
 
       @frame_score[@frame] << pins
       @spare_strike.delete(10)
