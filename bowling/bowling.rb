@@ -59,7 +59,9 @@ class Game
       @frame_score[@frame] << pins
       @spare_strike[@frame] = 1 if @frame_score[@frame].reduce(:+) == 10
       advance_frame if @frame != 10
-    elsif @frame == 10 && @spare_strike.any?
+    elsif @frame == 10 && @spare_strike.any? && @frame_score[@frame].count == 2
+      raise BowlingError.new('last two pins must be < 10') if @frame_score[10][1] < 10 && @frame_score[10][1]+pins > 10
+
       @frame_score[@frame] << pins
       @spare_strike.delete(10)
       @game_over = true
