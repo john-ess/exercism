@@ -11,9 +11,9 @@ class Anagram
   end
 
   def match check_word_against
-    check_word_against.reject! { |candidate| candidate.downcase == @downcased_word }
-    check_word_against.select do |candidate|
-      standardize(candidate) == @standardized_word
+    check_word_against.reject do |candidate|
+      standardize(candidate) != @standardized_word ||
+        candidate.downcase == @downcased_word
     end
   end
 
