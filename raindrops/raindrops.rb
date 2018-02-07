@@ -7,9 +7,9 @@ class Raindrops
 
   FACTOR_TO_STRING  = { 3 => 'Pling', 5 => 'Plang', 7 => 'Plong' }
 
-  def self.convert(num)
-    converted = FACTOR_TO_STRING.select { |f, _| num % f == 0 }
-    return (converted.empty?) ? num.to_s : converted.values.join
+  def self.convert num
+    converted = FACTOR_TO_STRING.select { |f, _| (num % f).zero? }
+    converted.any? ? converted.values.join : num.to_s
   end
 end
 
