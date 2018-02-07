@@ -6,7 +6,8 @@ class Year
     # integrates tenebrousedge's suggestion
     #  remove primitive values (i.e. 0)
     year.modulo(4).zero? &&
-      year.modulo(400).zero? || !year.modulo(100).zero?
+      year.modulo(100).nonzero? ||
+        year.modulo(400).zero?
   end
 end
 
