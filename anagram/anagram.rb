@@ -3,6 +3,7 @@ class Anagram
   def initialize word
     @word              = word
     @standardized_word = standardize @word
+    @downcased_word    = word.downcase
   end
 
   def standardize word
@@ -10,7 +11,7 @@ class Anagram
   end
 
   def match check_word_against
-    check_word_against.reject! { |candidate| candidate.downcase == @word.downcase }
+    check_word_against.reject! { |candidate| candidate.downcase == @downcased_word }
     check_word_against.select do |candidate|
       standardize(candidate) == @standardized_word
     end
