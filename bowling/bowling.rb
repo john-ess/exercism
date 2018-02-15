@@ -46,9 +46,7 @@ class Game
     raise BowlingError.new('Game is over.') if @frame == LAST && @frame_score[@frame].count == 2 && @spare_strike.empty?
     raise BowlingError.new('Each ball must be be between 0 - 10.') unless (0..10).include?(pins)
 
-    if @spare_strike.any?
-      score_extra pins
-    end
+    score_extra pins if @spare_strike.any?
 
     if @frame_score[@frame].empty?
       @frame_score[@frame] << pins
