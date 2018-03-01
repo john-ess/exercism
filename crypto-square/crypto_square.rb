@@ -1,28 +1,27 @@
 class Crypto
-  include Math
 
   def initialize text
-    @text     = normalize text
-    @length   = @text.length
-    @sq_root  = Math.sqrt(@length).ceil
+    @normalized_text  = normalize text
+    @length           = @normalized_text.length
+    @rows             = (@length ** 0.5).ceil
   end
 
   def normalize text
     text.downcase.gsub(/[^A-Z\d]/i,'')
   end
 
-  def equal_length_rows
-    @text
+  def equal_length_set
+    @normalized_text
       .chars
-      .each_slice(@sq_root)
+      .each_slice(@rows)
       .map(&:join)
-      .map{|series| series.ljust(@sq_root.floor)}
+      .map{ |series| series.ljust(@rows) }
   end
 
   def ciphertext
-    return @text if @length == @sq_root
+    return @normalized_text if @length == @rows
 
-    equal_length_rows
+    equal_length_set
       .map(&:chars)
       .transpose
       .map(&:join)
