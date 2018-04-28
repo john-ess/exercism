@@ -1,21 +1,32 @@
 class Nucleotide
-  ADENOSINES = %w[A T C G]
+  ADENOSINES = [ 'A',
+                 'T',
+                 'C',
+                 'G' ]
 
-  def initialize dna
-    @dna = dna
+  def initialize strand
+    @counts = ADENOSINES.map { |adenosine| [adenosine, 0] }.to_h
+    strand.each_char do |dna|
+      valid_nucelotide?(dna)
+      @counts[dna] += 1
+    end
   end
 
-  def self.from_dna dna
-    raise ArgumentError.new('You did not provide a strand of DNA') if dna.chars.uniq.any? { |letter| !ADENOSINES.include?(letter) }
-    new(dna)
+  def self.from_dna strand
+    new(strand)
   end
 
   def count(adenosine)
-    return @dna.count(adenosine)
+    valid_nucelotide?(adenosine)
+    return ADENOSINES.include?(adenosine) ? @counts[adenosine] : 0
   end
 
   def histogram
-    ADENOSINES.map {|adenosine| [ adenosine, @dna.count(adenosine) ] }.to_h
+    @counts
   end
 
+  private
+  def valid_nucelotide?(adenosine)
+    raise ArgumentError.new('You did not provide a strand of DNA') unless ADENOSINES.include?(adenosine)
+  end
 end
